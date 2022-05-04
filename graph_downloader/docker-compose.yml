@@ -1,0 +1,7 @@
+services:
+  python-script:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./results:/usr/app/src/results

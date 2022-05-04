@@ -1,0 +1,31 @@
+version: '3.7'
+
+# The different services that make up our "network" of containers
+services:
+    
+    ## Defining the Neo4j Database Service        
+    neo4j:
+        # The image to use
+        image: neo4j:4.4.5
+        # map the ports so we can check the db server is up
+        ports: 
+            - 7474:7474
+            - 7687:7687
+        # mounting a named volume to the container to track db data
+        volumes:
+            - ./neo4j/data:/data
+            - ./neo4j/logs:/logs
+            - ./neo4j/import:/var/lib/neo4j/import
+            - ./neo4j/plugins:/plugins
+        environment:
+            - NEO4J_AUTH=neo4j/geheim
+            - NEO4J_dbms.memory.heap.max_size=6G
+            - NEO4JLABS_PLUGINS=["apoc"]
+
+    # tigergraph:
+    #     image: xpertmind/tigergraph:latest
+    #     ports:
+    #         - 9000:9000
+    #         - 14240:14240
+    #     volumes:
+    #         - ./tigergraph_data:/var/lib/tigergraph/data
