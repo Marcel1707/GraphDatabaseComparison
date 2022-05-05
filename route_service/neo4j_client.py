@@ -29,7 +29,11 @@ class Neo4JClient:
         return list(result)
 
 
-    def add_data_to_neo4j(self, nodes, edges):
+    def reset_neo4j_data(self):
+        dir = "../graph_downloader/results/"
+        nodes = pd.read_csv(dir + "nodes.csv", dtype={"id":int, "lat":float, "lon":float})
+        edges = pd.read_csv(dir + "edges.csv", dtype={"length":float, "node1": int, "node2": int})
+
         batch_size = 100000
 
         # clear database
@@ -40,7 +44,6 @@ class Neo4JClient:
                 DETACH DELETE n
             }} IN TRANSACTIONS of {batch_size} ROWS;
         """)
-
 
         # add nodes
         self.execute_query(f""" 

@@ -9,7 +9,7 @@ CORS(app)
 neo4j_client = Neo4JClient(url="neo4j://localhost:7687", auth=("neo4j", "geheim"))
 
 @app.route('/route')
-def greet():
+def find_route():
     src_lon = request.args.get("src_lon")
     src_lat = request.args.get("src_lat")
     dest_lon = request.args.get("dest_lon")
@@ -29,6 +29,12 @@ def greet():
 
     else:
         return "Missing parameters!", 400
+
+
+@app.route('/reset/neo4j')
+def reset_neo4j_data():
+    neo4j_client.reset_neo4j_data()
+    return "Neo4J data has been reset!", 200
 
 
 def main():
