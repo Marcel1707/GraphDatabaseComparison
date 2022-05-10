@@ -1,6 +1,6 @@
 import './App.css';
 import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet'
-import { Typography, Button, List, ListItem, ListItemText } from '@mui/material';
+import { Typography, Button, List, ListItem, ListItemText, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import React from 'react';
 import * as L from "leaflet";
 
@@ -24,7 +24,8 @@ class App extends React.Component {
       selectingDestination: false,
       source: undefined,
       destination: undefined,
-      result: undefined
+      result: undefined,
+      dbService: "neo4j",
     };
   }
 
@@ -45,7 +46,7 @@ class App extends React.Component {
     let dest_lon = this.state.destination["lng"]
     let dest_lat = this.state.destination["lat"]
 
-    let url = `http://localhost:5000/route?src_lon=${src_lon}&src_lat=${src_lat}&dest_lon=${dest_lon}&dest_lat=${dest_lat}`
+    let url = `http://localhost:5000/route?src_lon=${src_lon}&src_lat=${src_lat}&dest_lon=${dest_lon}&dest_lat=${dest_lat}&db_service=${this.state.dbService}`
 
     this.setState({loading: true})
 
@@ -72,6 +73,10 @@ class App extends React.Component {
     return Math.round(num * 100) / 100
   }
 
+  handleGraphDBSelect = (event, newAlignment) => {
+    this.setState({ dbService: newAlignment })
+  };
+
   render() {
     return (
       <div className='mainView'>
@@ -79,6 +84,11 @@ class App extends React.Component {
           <Typography variant="h4">
             Graph Database Comparison
           </Typography>
+
+          <ToggleButtonGroup className='toggleButtonGroup' color="primary" value={this.state.dbService} exclusive onChange={this.handleGraphDBSelect} >
+            <ToggleButton className='toggleButton' value="neo4j">Neo4J</ToggleButton>
+            <ToggleButton className='toggleButton' value="tigergraph">Tigergraph</ToggleButton>
+          </ToggleButtonGroup>
 
           <Button variant="outlined" onClick={() => { this.setState({ selectingSource: true, selectingDestination: false }); }}>Select a source point</Button>
 

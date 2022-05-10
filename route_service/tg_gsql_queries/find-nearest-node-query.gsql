@@ -1,0 +1,13 @@
+BEGIN
+    USE GRAPH myGraph
+    CREATE OR REPLACE QUERY find_nearest_node (DOUBLE lon, DOUBLE lat, DOUBLE search_distance) FOR GRAPH myGraph SYNTAX v2 {
+        nodes = {Node.*};
+        filtered_nodes = 
+            SELECT n FROM nodes:n 
+            WHERE tg_GetDistance(n.lat,n.lon,lat,lon) < search_distance 
+            ORDER by tg_GetDistance(n.lat,n.lon,lat,lon) ASC 
+            LIMIT 1;
+        PRINT filtered_nodes;
+    }   
+END
+INSTALL QUERY find_nearest_node

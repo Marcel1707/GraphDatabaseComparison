@@ -58,6 +58,15 @@
   flex-direction: column;
 }
 
+.toggleButtonGroup{
+  justify-content: center;
+  width: 100%
+}
+
+.toggleButton{
+  width: 100%
+}
+
 .mainView {
   display: flex;
   flex-direction: row;

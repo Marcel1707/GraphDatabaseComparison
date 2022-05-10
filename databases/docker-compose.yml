@@ -2,8 +2,17 @@ version: '3.7'
 
 # The different services that make up our "network" of containers
 services:
+    # Defining the Tigergraph Database Service
+    tigergraph:
+        image: xpertmind/tigergraph:3.5.1
+        ports:
+            - 9000:9000
+            - 14240:14240
+        volumes:
+            - ./tigergraph/udf:/opt/tigergraph/app/3.5.1/dev/gdk/gsql/src/QueryUdf
+            - ./tigergraph/data:/var/lib/tigergraph/data
     
-    ## Defining the Neo4j Database Service        
+    # Defining the Neo4j Database Service        
     neo4j:
         # The image to use
         image: neo4j:4.4.5
@@ -20,12 +29,5 @@ services:
         environment:
             - NEO4J_AUTH=neo4j/geheim
             - NEO4J_dbms.memory.heap.max_size=6G
-            - NEO4JLABS_PLUGINS=["apoc"]
+            - NEO4JLABS_PLUGINS=["apoc"]    
 
-    # tigergraph:
-    #     image: xpertmind/tigergraph:latest
-    #     ports:
-    #         - 9000:9000
-    #         - 14240:14240
-    #     volumes:
-    #         - ./tigergraph_data:/var/lib/tigergraph/data
