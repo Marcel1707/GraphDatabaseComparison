@@ -10,7 +10,7 @@ services:
             - 14240:14240
         volumes:
             - ./tigergraph/udf:/opt/tigergraph/app/3.5.1/dev/gdk/gsql/src/QueryUdf
-            - ./tigergraph/data:/var/lib/tigergraph/data
+            - ./tigergraph/data:/opt/tigergraph/data
     
     # Defining the Neo4j Database Service        
     neo4j:
